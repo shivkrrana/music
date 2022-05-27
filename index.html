@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h2 id="album">INDUSTRY BABY</h2>
+        <h3 id="artist">Lil Nas X, Jack Harlow</h3>
+        <div class="imgbox">
+            <img src="images/1.png" alt="">
+        </div>
+        <div class="suffle_container">
+           <div class="vol_container" id="volume"><div class="margin"><i class="fa-solid fa-volume-high suffle_size" id="vol_i"></i></div> 
+            
+                <input type="range" class="volume_bar hide" id="vol_range" value="100">
+            
+        </div>
+        <div class="suffle" id="suffle">
+            <i class="fa-solid fa-shuffle suffle_size"></i>
+        </div>
+    </div>
+
+        <div class="progress_container">
+            <div id="start_time">0:00</div>
+            <div id="end_time">3:55</div>
+        </div>
+        <input type="range" class="progress_bar" id = "progress_bar" value="0" max="100"/>
+            
+
+        <div class="control">
+            <i class="fa-solid fa-backward-step" id="prev"></i>
+            <i class="fa-solid fa-play" id="play"></i>
+            <i class="fa-solid fa-forward-step" id="next"></i>
+        </div>
+
+        
+    </div>
+
+
+    
+
+
+
+
+
+    
+    
+
+    <audio src="audio/Y2Mate.is - Lil Nas X, Jack Harlow - INDUSTRY BABY (Official Video)-UTHLKHL_whs-160k-1637909706041.mp3"></audio>
+
+
+
+    <script>
+        const play = document.getElementById("play");
+        const album = document.getElementById("album");
+        const artist = document.getElementById("artist");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+        const music = document.querySelector("audio");
+        const image = document.querySelector("img");
+        const progress = document.getElementById("progress");
+        const start_time = document.getElementById("start_time");
+        const end_time = document.getElementById("end_time");
+        const progress_bar = document.getElementById("progress_bar");
+        const suffle = document.getElementById("suffle");
+        const volume = document.getElementById("volume");
+        const vol_range = document.getElementById("vol_range");
+        const vol_i = document.getElementById("vol_i");
+
+        const songs = [
+        {
+            album : "INDUSTRY BABY",
+            artist : "Lil Nas X, Jack Harlow",
+            audio : "audio/Y2Mate.is - Lil Nas X, Jack Harlow - INDUSTRY BABY (Official Video)-UTHLKHL_whs-160k-1637909706041.mp3",
+            image : "images/1.png"
+        },
+        {
+            album : "Shape of You",
+            artist : "Ed Sheeran",
+            audio : "audio/Y2Mate.is - Ed Sheeran - Shape of You (Official Music Video)-JGwWNGJdvx8-160k-1647192180804.mp3",
+            image : "images/ed-sheeran-drops-shape-of-you-stormy-and-major-lazer-remixes-listen-and-download-now.jpg"
+        },
+        {
+            album : "SugarCrash!",
+            artist : "ElyOtto",
+            audio : "audio/Y2Mate.is - ElyOtto - SugarCrash! (Lyrics)-bWLgA4jUkuw-160k-1646934516722.mp3",
+            image : "images/06c94af1983793213e2706afe22657a3.1000x1000x1.png"
+        },
+        {
+            album : "Peaches",
+            artist : "Justin Bieber, Daniel Caesar",
+            audio : "audio/Y2Mate.is - Justin Bieber - Peaches ft. Daniel Caesar, Giveon-tQ0yjYUFKAE-160k-1639045305492.mp3",
+            image : "images/Justin-Bieber3.jpg"
+        },
+        {
+            album : "Jalebi Baby",
+            artist : "Tesher, Jason Derulo",
+            audio : "audio/Y2Mate.is - Tesher - Jalebi Baby (Official Lyric Video)-IFtwhMK64H8-160k-1643108576736.mp3",
+            image : "images/Jalebi_Baby.jpeg"
+        }
+    ];
+
+
+
+    let isplaying = false;
+        const musicPlay = () =>{
+            isplaying = true;
+            music.play();
+            play.classList.replace("fa-play","fa-pause");
+        };
+        const musicPause = () =>{
+            isplaying = false;
+            music.pause();
+            play.classList.replace("fa-pause","fa-play");
+        };
+        play.addEventListener("click",()=>{
+            if(!isplaying) musicPlay();
+            else musicPause();
+            
+        });
+        let count = 0;
+        next.addEventListener("click",()=>{
+            count = isSuffelActive ? Math.floor(Math.random()*songs.length) : (count + 1) % songs.length;  
+            album.textContent = songs[count].album;
+            artist.textContent = songs[count].artist;
+            music.src = songs[count].audio;
+            image.src = songs[count].image;
+            music.play();
+            play.classList.replace("fa-play","fa-pause");
+            isplaying = true;
+            progress_bar.value = 0;
+        });
+        prev.addEventListener("click",()=>{
+            count = isSuffelActive ? Math.floor(Math.random()*songs.length) : (count - 1 + songs.length) % songs.length;
+            album.textContent = songs[count].album;
+            artist.textContent = songs[count].artist;
+            music.src = songs[count].audio;
+            image.src = songs[count].image;
+            music.play();
+            play.classList.replace("fa-play","fa-pause");
+            isplaying = true;
+            progress_bar.value = 0;
+        });
+        
+
+        music.addEventListener("timeupdate",(event)=>{
+            let {currentTime , duration} = event.srcElement;  
+            let width_percentage = (currentTime/duration)*100;      
+            // progress.style.width = `${width_percentage}%`;
+            const minute_duration =  Math.floor(duration/60);
+            const second_duration =  Math.floor(duration%60);
+            const minute_current =  Math.floor(currentTime/60);
+            const second_current =  Math.floor(currentTime%60);
+            
+            if(!isNaN(width_percentage))
+            progress_bar.value = width_percentage;
+            
+            if(!isNaN(minute_duration) || !isNaN(second_duration))
+                end_time.textContent = `${minute_duration}:${second_duration}`;
+            
+            if(second_current<10)
+                start_time.textContent = `${minute_current}:0${second_current}`;
+            else
+                start_time.textContent = `${minute_current}:${second_current}`; 
+            
+        });
+
+        music.addEventListener("ended",()=>{
+            count = isSuffelActive ? Math.floor(Math.random()*songs.length) : (count + 1) % songs.length;
+            album.textContent = songs[count].album;
+            artist.textContent = songs[count].artist;
+            music.src = songs[count].audio;
+            image.src = songs[count].image;
+            music.play();
+            play.classList.replace("fa-play","fa-pause");
+            isplaying = true;
+            progress_bar.value = 0;
+        });
+
+
+        progress_bar.addEventListener("input", ()=>{
+            music.currentTime = progress_bar.value / 100 * music.duration;   
+        });
+        
+        let isSuffelActive = false;
+        suffle.addEventListener("click",()=>{
+            isSuffelActive = !isSuffelActive;
+            suffle.classList.replace(isSuffelActive ? "suffle" : "suffle_click", isSuffelActive ? "suffle_click" : "suffle");
+        });
+        
+
+
+        volume.addEventListener("mouseover",()=>{
+            vol_range.classList.remove("hide");
+            
+        });
+        volume.addEventListener("mouseout",()=>{
+            vol_range.classList.add("hide");
+        });
+        
+        const vol_sign = ()=>{
+            if(vol_range.value>=50)
+            {
+                vol_i.classList.remove("fa-volume-high","fa-volume-low","fa-volume-xmark");
+                vol_i.classList.add("fa-volume-high");
+            }
+           else if(0<vol_range.value && vol_range.value<50)
+            {
+                vol_i.classList.remove("fa-volume-high","fa-volume-low","fa-volume-xmark");
+                vol_i.classList.add("fa-volume-low");
+            }
+           else if(vol_range.value==0)
+            {
+                vol_i.classList.remove("fa-volume-high","fa-volume-low","fa-volume-xmark");
+                vol_i.classList.add("fa-volume-xmark");
+            }
+        }
+
+        
+        let ismute = false;
+        
+        vol_range.addEventListener("input",()=>{
+           
+            music.volume = vol_range.value /100;
+            if(music.volume>0)
+            ismute = false;
+            vol_sign();
+        });
+
+
+
+        
+        let var_vol;
+            const current_vol = ()=>{
+            var_vol = music.volume;
+            };
+           
+        
+        vol_i.addEventListener("click",()=>{
+            
+            if(!ismute)
+            {
+                current_vol();
+                ismute = true;
+                vol_range.value = 0;
+                music.volume = 0;
+                vol_sign();
+                
+            }
+            else
+            {
+                ismute = false;
+                music.volume = var_vol;
+                vol_range.value = var_vol * 100;
+
+                vol_sign();
+            }
+        });
+
+        
+        
+    </script>
+</body>
+</html>
